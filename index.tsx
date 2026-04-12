@@ -1,52 +1,111 @@
-import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
-export default function App() {
-  const [count, setCount] = useState(0);
+const apps = [
+  "Camera", "Phone", "Messages", "Browser",
+  "Gallery", "Music", "Settings", "Maps",
+  "Store", "Email", "Games", "Health"
+];
 
+export default function HomeScreen() {
   return (
-    <ImageBackground
-      source={require('./f0c51a5a-4bd1-4ca2-af55-aa68706c6470.png')} 
-      style={styles.background}
-      resizeMode="cover"
+    <LinearGradient
+      colors={["#2c2c54", "#706fd3"]}
+      style={styles.container}
     >
-      <View style={styles.container}>
-        <Text style={styles.title}>React Native</Text>
-        <Text style={styles.count}>Count: {count}</Text>
-        <View style={styles.buttonContainer}>
-          <Button title="Increase Count" onPress={() => setCount(count + 1)} color="#3366FF" />
-        </View>
+      {/* Time */}
+      <Text style={styles.time}>19:54</Text>
+      <Text style={styles.date}>Saturday, February 28</Text>
+
+      {/* Status */}
+      <View style={styles.statusRow}>
+        <Text style={styles.status}>🌤 31°C</Text>
+        <Text style={styles.status}>🔋 72%</Text>
+        <Text style={styles.status}>📶 4G</Text>
       </View>
-    </ImageBackground>
+
+      {/* Apps Grid */}
+      <FlatList
+        data={apps}
+        numColumns={4}
+        keyExtractor={(item) => item}
+        contentContainerStyle={styles.grid}
+        renderItem={({ item }) => (
+          <View style={styles.appBox}>
+            <View style={styles.icon} />
+            <Text style={styles.appText}>{item}</Text>
+          </View>
+        )}
+      />
+
+      {/* Dock */}
+      <View style={styles.dock}>
+        <Text style={styles.dockItem}>📞</Text>
+        <Text style={styles.dockItem}>💬</Text>
+        <Text style={styles.dockItem}>🌐</Text>
+        <Text style={styles.dockItem}>📷</Text>
+      </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-  },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
+    paddingTop: 60,
   },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#000',
+  time: {
+    fontSize: 48,
+    color: "#fff",
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+  date: {
+    textAlign: "center",
+    color: "#ddd",
+    marginBottom: 10,
+  },
+  statusRow: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
     marginBottom: 20,
   },
-  count: {
-    fontSize: 24,
-    marginBottom: 40,
-    color: '#000',
+  status: {
+    color: "#fff",
+    fontSize: 14,
   },
-  buttonContainer: {
-    width: '60%',
-    borderRadius: 8,
-    overflow: 'hidden',
+  grid: {
+    paddingHorizontal: 20,
+  },
+  appBox: {
+    flex: 1,
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  icon: {
+    width: 50,
+    height: 50,
+    borderRadius: 15,
+    backgroundColor: "rgba(255,255,255,0.2)",
+    marginBottom: 5,
+  },
+  appText: {
+    color: "#fff",
+    fontSize: 12,
+  },
+  dock: {
+    position: "absolute",
+    bottom: 20,
+    left: 20,
+    right: 20,
+    height: 70,
+    borderRadius: 20,
+    backgroundColor: "rgba(255,255,255,0.2)",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+  },
+  dockItem: {
+    fontSize: 24,
   },
 });
